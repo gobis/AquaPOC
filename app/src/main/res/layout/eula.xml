@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textSize="14sp"
+        android:id="@+id/eula_des" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <Button
+        android:layout_gravity="bottom"
+        android:background="@drawable/login_button_shape"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginRight="54dp"
+        android:textColor="@color/white"
+        android:text="Accept"
+        android:onClick="onAccept"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eula_agree" />
+    </LinearLayout>
+</LinearLayout>

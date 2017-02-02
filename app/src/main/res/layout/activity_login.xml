@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+     android:id="@+id/main_layout"
+    android:screenOrientation="portrait">
+
+
+    <EditText
+        android:layout_marginTop="100dp"
+        android:id="@+id/login_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:minHeight="50dp"
+        android:maxHeight="60dp"
+        android:ems="10"
+        android:background="@drawable/bg_edit_text"
+        android:drawableLeft="@drawable/ic_email_white"
+        android:drawablePadding="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingLeft="7dp"
+        android:focusable="true"
+        android:inputType="textEmailAddress"
+        android:hint="Enter your Email"
+        android:maxLines="1" />
+
+    <EditText
+        android:layout_marginTop="40dp"
+        android:id="@+id/login_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingLeft="5dp"
+        android:background="@drawable/bg_edit_text"
+        android:drawableLeft="@drawable/ic_lock_white"
+        android:drawablePadding="20dp"
+        android:minHeight="50dp"
+        android:maxHeight="60dp"
+        android:ems="10"
+        android:focusable="true"
+        android:inputType="textPassword"
+        android:hint="Enter your password"
+        android:maxLines="1" />
+
+
+    <Button
+        android:id="@+id/btn_Login"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="54dp"
+        android:layout_marginRight="54dp"
+        android:background="@drawable/login_button_shape"
+        android:maxHeight="50dp"
+        android:padding="12dp"
+        android:onClick="onLogin"
+        android:text="@string/btn_login"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+
+</LinearLayout>
