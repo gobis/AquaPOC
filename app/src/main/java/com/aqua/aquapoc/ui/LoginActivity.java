@@ -1,5 +1,6 @@
 package com.aqua.aquapoc.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -123,6 +125,8 @@ public class LoginActivity extends AppCompatActivity {
     public void onLogin(View view) {
         // get user mail and pwd
 
+        HideSoftKeyboard();
+
         mUserMail = emailField.getEditableText().toString();
 
         if (utils.validateUserEmail(mUserMail)) {
@@ -169,8 +173,6 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG,e.toString());
             }
 
-
-
             return response;
         }
 
@@ -207,15 +209,19 @@ public class LoginActivity extends AppCompatActivity {
     private void updateModel(String response){
         if(response != null){
 
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<userModel>>() {}.getType();
-          //  String json = gson.toJson(list, type);
-            System.out.println(response);
-            userModelList = gson.fromJson(response, type);
+            try {
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<userModel>>() {
+                }.getType();
+                //  String json = gson.toJson(list, type);
+                System.out.println(response);
+                userModelList = gson.fromJson(response, type);
 
-            Log.i(TAG,userModelList.toString());
-
-            mUserId = userModelList.get(0).getUserID();
+                Log.i(TAG, userModelList.toString());
+                mUserId = userModelList.get(0).getUserID();
+            }catch(Exception e){
+              Log.e(TAG,"Response recd from server is "+response +"   :: Exception is "+ e.toString());
+            }
 
         }else{
             showToast("invalid response from server");
@@ -367,6 +373,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private void unregisterManagers() {
         UpdateManager.unregister();
+    }
+
+
+    private void HideSoftKeyboard(){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 
