@@ -1,5 +1,7 @@
 package com.aqua.aquapoc.network;
 
+import com.squareup.okhttp.Response;
+
 import java.io.IOException;
 
 /**
@@ -8,11 +10,11 @@ import java.io.IOException;
 
 public interface NetworkInterface {
 
-   String login(String email,String password) throws IOException;
-   String sites(int userId) throws IOException ;
-   String ponds(int siteId) throws IOException;
-   String pondValues(int pondID) throws IOException;
-   String eula(int userId) throws IOException;
-   String eulaAcceptance(int userId , int eulaID) throws IOException;
+   Response login(String email, String password) throws IOException;
+   Response sites(int userId) throws IOException ;
+   Response ponds(int siteId) throws IOException;
+   Response pondValues(int pondID) throws IOException;
+   Response eula(int userId) throws IOException;
+   Response eulaAcceptance(int userId , int eulaID) throws IOException;
 
 }

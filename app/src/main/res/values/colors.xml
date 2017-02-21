@@ -2,11 +2,16 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#303F9F</color>
     <color name="end_start_color">#F9671E</color>
     <color name="edit_color">#f000</color>
     <color name="circle_color">#838996</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>
+
+
+    <color name="warning_status_red">#e33e38</color>
+    <color name="active_text_1">#e8a108</color>
+    <color name="snackbar_bg_color">#707070</color>
 
 </resources>

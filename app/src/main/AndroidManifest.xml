@@ -22,6 +22,9 @@
 
         </activity>
 
+        <activity android:name=".ui.PondTableActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <activity android:name=".ui.PondListActivity"
             android:screenOrientation="portrait">
@@ -35,10 +38,7 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".ui.TrendActivity"
-            android:screenOrientation="landscape"
-            >
-
+        <activity android:name=".ui.TrendActivity">
         </activity>
 
 

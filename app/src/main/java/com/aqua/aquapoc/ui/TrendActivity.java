@@ -1,9 +1,11 @@
 package com.aqua.aquapoc.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 
 import com.aqua.aquapoc.R;
@@ -43,9 +45,15 @@ public class TrendActivity extends AppCompatActivity {
         pondValuesModelList = getIntent().getParcelableArrayListExtra(utils.POND_TREND);
 
         BarChart chart = (BarChart) findViewById(R.id.chart);
+        chart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToTableActivity();
+            }
+        });
+
 
         BarData data = new BarData(getXAxisValues(), getDataSet());
-//        BarData data = new BarData()
 
 
 
@@ -58,6 +66,11 @@ public class TrendActivity extends AppCompatActivity {
 
 
 
+    private void navigateToTableActivity(){
+        Intent intent  = new Intent(TrendActivity.this,PondTableActivity.class);
+        intent.putParcelableArrayListExtra(utils.POND_TREND,pondValuesModelList);
+        startActivity(intent);
+    }
 
     @Override
     protected void onStart() {

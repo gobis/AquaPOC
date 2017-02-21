@@ -17,15 +17,18 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.aqua.aquapoc.R;
+import com.aqua.aquapoc.model.errorModel;
 import com.aqua.aquapoc.model.eulaModel;
 import com.aqua.aquapoc.model.siteModel;
 import com.aqua.aquapoc.model.userModel;
 import com.aqua.aquapoc.network.SendToServer;
 import com.aqua.aquapoc.network.response.SiteModelList;
+import com.aqua.aquapoc.utility.EndPoint;
 import com.aqua.aquapoc.utility.ProgressBarUtils;
 import com.aqua.aquapoc.utility.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.okhttp.Response;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -39,7 +42,7 @@ import java.util.List;
  * Created by iningosu on 1/3/2017.
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
 
     EditText emailField;
@@ -59,6 +62,10 @@ public class LoginActivity extends AppCompatActivity {
     boolean isUserAcceptedEULA;
     LinearLayout masterLayout ;
 
+    EndPoint endPointService;
+
+
+    int mErrorCode ;
 
    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +86,19 @@ public class LoginActivity extends AppCompatActivity {
        getSupportActionBar().setTitle("Login");
 
        checkForUpdates();
+
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        // make it empty
+        passwordField.setText("");
+        emailField.setText("");
+        emailField.requestFocus();
+
 
     }
 
@@ -163,22 +183,25 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            String response = null ;
+            Response response = null ;
+            String body = null;
             try {
                 ProgressBar(true);
                 response =   mServer.login(mUserMail, mUserPwd);
+                body = response.body().string();
             }catch (IOException ioe){
                 Log.e(TAG,ioe.toString());
             }catch (Exception e){
                 Log.e(TAG,e.toString());
             }
-
-            return response;
+            return body;
         }
 
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
+
+            endPointService = EndPoint.LoginWithPassword;
 
 
             // if response has some value other than null , currently we are assuming we got some correct data
@@ -236,16 +259,19 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            String response = null ;
+            String body = null ;
+            Response response = null ;
             try {
                 response =   mServer.sites(mUserId);
+                body = response.body().string();
+                mErrorCode = response.code();
             }catch (IOException ioe){
                 Log.e(TAG,ioe.toString());
             }catch (Exception e){
                 Log.e(TAG,e.toString());
             }
 
-            return response;
+            return body;
         }
 
 
@@ -253,9 +279,9 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
+            endPointService = EndPoint.Sites;
 
-
-                if (response != null) {
+                if (response != null && mErrorCode == 200 ) {
 
                     Gson gson = new Gson();
                     Type type = new TypeToken<List<siteModel>>() {
@@ -265,6 +291,21 @@ public class LoginActivity extends AppCompatActivity {
                     siteModelList = gson.fromJson(response, type);
 
                     MoveToNextScreen(SCREEN.SITE_SCREEN);
+                }else{
+                    // handle error scenario
+                    String error_msg = getResources().getString(R.string.server_error);
+                    try {
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<errorModel>() {
+                        }.getType();
+
+                        System.out.println(response);
+                        errorModel model = gson.fromJson(response, type);
+                        error_msg = model.getError_msg();
+                    }catch (Exception e){
+
+                    }
+                    HandlingNetworkError(mErrorCode,error_msg);
                 }
 
                 ProgressBar(false);
@@ -282,22 +323,24 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            String response = null ;
+            String body = null ;
+            Response response = null ;
             try {
                 response =   mServer.eula(mUserId);
+                body = response.body().string();
             }catch (IOException ioe){
                 Log.e(TAG,ioe.toString());
             }catch (Exception e){
                 Log.e(TAG,e.toString());
             }
 
-            return response;
+            return body;
         }
 
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-
+            endPointService = EndPoint.EULA;
             if (null != response) {
                     Gson gson = new Gson();
                     Type type = new TypeToken<List<eulaModel>>() {
@@ -374,6 +417,30 @@ public class LoginActivity extends AppCompatActivity {
     private void unregisterManagers() {
         UpdateManager.unregister();
     }
+
+
+
+    private void HandlingNetworkError(int errorCode , String responseStatus){
+
+        switch (endPointService){
+            case EULA:
+                break;
+            case LoginWithPassword:
+                 showSnackBarError(responseStatus,null,null);
+                break;
+            case Sites:
+                showSnackBarError(responseStatus,null,null);
+                break;
+            default:
+                break;
+
+
+
+        }
+
+
+    }
+
 
 
     private void HideSoftKeyboard(){

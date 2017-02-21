@@ -18,6 +18,7 @@ import com.aqua.aquapoc.utility.ProgressBarUtils;
 import com.aqua.aquapoc.utility.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -82,17 +83,19 @@ public class EulaScreen  extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            String response = null ;
+            String body = null ;
+            Response response = null;
             try {
                 ProgressBar(true);
                 response =   mServer.eulaAcceptance(mUserId,mEULAid);
+                body = response.body().string();
             }catch (IOException ioe){
                 Log.e(TAG,ioe.toString());
             }catch (Exception e){
                 Log.e(TAG,e.toString());
             }
 
-            return response;
+            return body;
         }
 
 
@@ -123,16 +126,18 @@ public class EulaScreen  extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            String response = null ;
+            String body = null ;
+            Response  response = null ;
             try {
                 response =   mServer.sites(mUserId);
+                body = response.body().string();
             }catch (IOException ioe){
                 Log.e(TAG,ioe.toString());
             }catch (Exception e){
                 Log.e(TAG,e.toString());
             }
 
-            return response;
+            return body;
         }
 
 

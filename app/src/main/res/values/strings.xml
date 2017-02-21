@@ -18,4 +18,16 @@
     <string name="loading">Loading, Please wait...</string>
     <string name="no_internet">Please check internet connection</string>
 
+
+    <!--  string related to table -->
+    <string name="temp_table">Temparature Table</string>
+    <string name="do_table">Do Table</string>
+    <string name="ph_table">PH Table</string>
+
+
+    <!-- common server error -->
+    <string name="server_error">Error in server response </string>
+
+
+
 </resources>

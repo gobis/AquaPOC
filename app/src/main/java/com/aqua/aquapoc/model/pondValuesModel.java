@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 public class pondValuesModel implements Parcelable {
 
     @SerializedName("pH")
-    int mpH;
+    float mpH;
     @SerializedName("DO")
     float mDO;
     @SerializedName("Temparature")
@@ -34,11 +34,11 @@ public class pondValuesModel implements Parcelable {
 
     }
 
-    public int getpH() {
+    public float getpH() {
         return mpH;
     }
 
-    public void setpH(int pH) {
+    public void setpH(float pH) {
         this.mpH = pH;
     }
 
@@ -69,7 +69,7 @@ public class pondValuesModel implements Parcelable {
 
 
     private pondValuesModel(Parcel in){
-        this.mpH =  in.readInt();
+        this.mpH =  in.readFloat();
         this.mDO = in.readFloat();
         this.mTemp = in.readFloat();
         this.mUpdatedTime =  in.readString();
@@ -97,7 +97,7 @@ public class pondValuesModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(mpH);
+        parcel.writeFloat(mpH);
         parcel.writeFloat(mDO);
         parcel.writeFloat(mTemp);
 

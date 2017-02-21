@@ -25,6 +25,7 @@ import com.aqua.aquapoc.utility.ProgressBarUtils;
 import com.aqua.aquapoc.utility.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -154,17 +155,19 @@ public class SiteListActivity extends AppCompatActivity implements NetworkStateR
 
         @Override
         protected String doInBackground(Void... params) {
-            String response = null ;
+            String body = null ;
+            Response response;
             try {
                 ProgressBar(true);
                 response =   mServer.ponds(mPondID);
+                body = response.body().string();
             }catch (IOException ioe){
                 Log.e(TAG,ioe.toString());
             }catch (Exception e){
                 Log.e(TAG,e.toString());
             }
 
-            return response;
+            return body;
         }
 
         @Override

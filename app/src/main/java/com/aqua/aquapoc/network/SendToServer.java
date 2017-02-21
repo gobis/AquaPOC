@@ -44,7 +44,7 @@ public class SendToServer implements  NetworkInterface{
 
 
     @Override
-    public String login(String email, String password) throws IOException {
+    public Response login(String email, String password) throws IOException {
       String url = schemaURL+loginService;
      //   ?uname=sudeesh.thatha%40gmail.com&upassword=passthatha
       String queryParam = "?"+"uname="+email+"&"+"upassword="+password;
@@ -53,7 +53,7 @@ public class SendToServer implements  NetworkInterface{
     }
 
     @Override
-    public String sites(int userId) throws IOException {
+    public Response sites(int userId) throws IOException {
         String url = schemaURL+siteService;
         //?userId=2
         String queryParam = "?"+"userId="+userId;
@@ -62,7 +62,7 @@ public class SendToServer implements  NetworkInterface{
     }
 
     @Override
-    public String ponds(int siteId) throws IOException {
+    public Response ponds(int siteId) throws IOException {
 
         String url = schemaURL+pondService;
         //?siteId=2
@@ -71,7 +71,7 @@ public class SendToServer implements  NetworkInterface{
     }
 
     @Override
-    public String pondValues(int pondId) throws IOException {
+    public Response pondValues(int pondId) throws IOException {
 
         String url = schemaURL+pondValueService;
         //?siteId=2
@@ -81,7 +81,7 @@ public class SendToServer implements  NetworkInterface{
 
 
     @Override
-    public String eula(int userId) throws IOException {
+    public Response eula(int userId) throws IOException {
         String url = schemaURL+eulaService;
         //?siteId=2
         String queryParam = "?"+"userId="+userId;
@@ -89,7 +89,7 @@ public class SendToServer implements  NetworkInterface{
     }
 
     @Override
-    public String eulaAcceptance(int userId, int eulaID) throws IOException {
+    public Response eulaAcceptance(int userId, int eulaID) throws IOException {
         String url = schemaURL+eulaService;
         String queryParam = "?"+"userId="+userId+"&"+"eulaid="+eulaID;
         return doPutRequest(url+queryParam,"");
@@ -98,7 +98,7 @@ public class SendToServer implements  NetworkInterface{
 
 
 
-    private String doPostRequest(final String url, final String json) throws IOException {
+    private Response doPostRequest(final String url, final String json) throws IOException {
 
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json" ), json);
@@ -110,13 +110,13 @@ public class SendToServer implements  NetworkInterface{
                 .post(body)
                 .build();
         Response response = client.newCall(request).execute();
-        return response.body().string();
+        return response;
 
     }
 
 
 
-    private String doGetRequest(final String url) throws IOException {
+    private Response doGetRequest(final String url) throws IOException {
 
         Log.i(getClass().getSimpleName(),"Get Url " + url);
 
@@ -125,16 +125,11 @@ public class SendToServer implements  NetworkInterface{
                 .build();
         Response response = client.newCall(request).execute();
 
-        if(response.code() == 200) {
-
-            return response.body().string();
-        }else{
-            return  null ;
-        }
+        return response;
     }
 
 
-    private String doPutRequest(final String url , final String json) throws IOException {
+    private Response doPutRequest(final String url , final String json) throws IOException {
 
         Log.i(getClass().getSimpleName()," Put Url " + url);
         RequestBody body = RequestBody.create(MediaType.parse("application/json" ), json);
@@ -144,7 +139,7 @@ public class SendToServer implements  NetworkInterface{
                 .build();
         Response response = client.newCall(request).execute();
 
-        return response.body().string();
+        return response;
     }
 
 
