@@ -188,7 +188,17 @@ public class LoginActivity extends BaseActivity {
             try {
                 ProgressBar(true);
                 response =   mServer.login(mUserMail, mUserPwd);
-                body = response.body().string();
+                if(response.code() == 200) {
+                    body = response.body().string();
+                }else {
+
+                    body = null;
+                    if (response.code() == 404) {
+                        showSnackBarError(getResources().getString(R.string.wrong_uname_pwd),null,null);
+                    } else if (response.code() == 500) {
+                        showSnackBarError(getResources().getString(R.string.app_error_500),null,null);
+                    }
+                }
             }catch (IOException ioe){
                 Log.e(TAG,ioe.toString());
             }catch (Exception e){
@@ -201,27 +211,31 @@ public class LoginActivity extends BaseActivity {
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
 
-            endPointService = EndPoint.LoginWithPassword;
+            if(null != response) {
+                endPointService = EndPoint.LoginWithPassword;
 
 
-            // if response has some value other than null , currently we are assuming we got some correct data
-            updateModel(response);
+                // if response has some value other than null , currently we are assuming we got some correct data
+                updateModel(response);
 
-            if(null != userModelList && userModelList.size() > 0  ){
+                if (null != userModelList && userModelList.size() > 0) {
 
-                isUserAcceptedEULA = userModelList.get(0).getEulaAcceptance();
+                    isUserAcceptedEULA = userModelList.get(0).getEulaAcceptance();
 
-                if(isUserAcceptedEULA){
-                    // Directly navigate to Site list
-                      new GetSiteDataFromServer().execute();
+                    if (isUserAcceptedEULA) {
+                        // Directly navigate to Site list
+                        new GetSiteDataFromServer().execute();
 
-                }else{
-                    // show EULA for the end user
-                     new GetEULADataFromServer().execute();
+                    } else {
+                        // show EULA for the end user
+                        new GetEULADataFromServer().execute();
 
+                    }
+
+                } else {
+                    ProgressBar(false);
                 }
-
-            }else{
+            }else {
                 ProgressBar(false);
             }
 

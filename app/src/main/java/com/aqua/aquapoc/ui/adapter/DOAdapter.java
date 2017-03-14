@@ -11,6 +11,7 @@ import com.aqua.aquapoc.R;
 import com.aqua.aquapoc.model.pondValuesModel;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by iningosu on 2/21/2017.
@@ -65,7 +66,20 @@ public class DOAdapter extends BaseAdapter {
         } else {
             holder = (DOAdapter.ViewHolder)convertView.getTag();
         }
-        holder.timestamp.setText(((pondValuesModel)getItem(position)).getUpdatedTime());
+        String ts = ((pondValuesModel)getItem(position)).getUpdatedTime().trim() ;
+
+        if(null == ts || ts.length() == 0 ){
+            ts = "--";
+        }else{
+
+            StringTokenizer tokenizer = new StringTokenizer(ts,"T");
+            if(tokenizer.hasMoreTokens()) {
+                tokenizer.nextToken();
+                ts = tokenizer.nextToken();
+            }
+        }
+
+        holder.timestamp.setText(ts);
         String do_value =  String.valueOf( ((pondValuesModel)getItem(position)).getDO() );
         holder.doValue.setText(do_value);
 

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
         android:text="@string/temp_table"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
     <TableLayout
         android:layout_width="fill_parent"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
         android:text="@string/ph_table"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
     <TableLayout
         android:layout_width="fill_parent"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
         android:text="@string/do_table"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
     <TableLayout
         android:layout_width="fill_parent"

@@ -28,6 +28,10 @@
     <!-- common server error -->
     <string name="server_error">Error in server response </string>
 
+    <!-- network related error string -->
+    <string name="wrong_uname_pwd">Plesae enter valid username and password combination</string>
+    <string name="app_error_500">Application error, kindly contact support</string>
+
 
 
 </resources>

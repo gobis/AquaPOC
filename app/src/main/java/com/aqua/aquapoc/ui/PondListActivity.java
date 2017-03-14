@@ -23,6 +23,7 @@ import com.aqua.aquapoc.utility.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.internal.http.HttpMethod;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -128,7 +129,11 @@ public class PondListActivity  extends AppCompatActivity implements NetworkState
                 if(null != pondValuesModelList) pondValuesModelList.clear();
 
                 response =   mServer.pondValues(mPondID);
-                body = response.body().string();
+                if(response.code() == 200) {
+                    body = response.body().string();
+                }else{
+                    body = null;
+                }
             }catch (IOException ioe){
                 Log.e(TAG,ioe.toString());
             }catch (Exception e){
@@ -195,7 +200,12 @@ public class PondListActivity  extends AppCompatActivity implements NetworkState
 
     private void MoveToNextScreen(){
 
-        Intent intent = new Intent(PondListActivity.this,TrendActivity.class);
+       /* Intent intent = new Intent(PondListActivity.this,TrendActivity.class);
+        intent.putParcelableArrayListExtra(utils.POND_TREND,pondValuesModelList);
+        startActivity(intent);*/
+
+
+        Intent intent = new Intent(PondListActivity.this,PondTableActivity.class);
         intent.putParcelableArrayListExtra(utils.POND_TREND,pondValuesModelList);
         startActivity(intent);
 

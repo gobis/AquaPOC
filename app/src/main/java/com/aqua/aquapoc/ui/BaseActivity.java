@@ -71,33 +71,42 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected void showSnackBarError(String msg, String action ,final sbActionCallback callback) {
-        Snackbar snackbar = Snackbar
-                .make(fullLayout, msg, Snackbar.LENGTH_LONG);
+    protected void showSnackBarError(final String msg, final String action ,final sbActionCallback callback) {
 
-        if (null != action) {
-            snackbar.setAction(action, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-                    if (null != callback) {
-                        callback.actionButtonClicked();
-                    }
+                Snackbar snackbar = Snackbar
+                        .make(fullLayout, msg, Snackbar.LENGTH_LONG);
+
+                if (null != action) {
+                    snackbar.setAction(action, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            if (null != callback) {
+                                callback.actionButtonClicked();
+                            }
+                        }
+                    });
+
+                    snackbar.setActionTextColor(ContextCompat.getColor(getBaseContext(), R.color.warning_status_red));
+
                 }
-            });
-
-            snackbar.setActionTextColor(ContextCompat.getColor(getBaseContext(), R.color.warning_status_red));
-
-        }
 
 
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.YELLOW);
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.YELLOW);
 
-        sbView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.snackbar_bg_color));
+                sbView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.snackbar_bg_color));
 
-        snackbar.show();
+                snackbar.show();
+
+
+            }
+        });
 
     }
 
