@@ -23,7 +23,7 @@
         </activity>
 
         <activity android:name=".ui.PondTableActivity"
-            android:screenOrientation="portrait">
+           >
         </activity>
 
         <activity android:name=".ui.PondListActivity"

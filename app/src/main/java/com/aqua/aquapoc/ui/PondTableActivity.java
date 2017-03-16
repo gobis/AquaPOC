@@ -14,6 +14,7 @@ import com.aqua.aquapoc.R;
 import com.aqua.aquapoc.model.pondValuesModel;
 import com.aqua.aquapoc.ui.adapter.DOAdapter;
 import com.aqua.aquapoc.ui.adapter.PHAdapter;
+import com.aqua.aquapoc.ui.adapter.TableAdapter;
 import com.aqua.aquapoc.ui.adapter.TemparatureAdapter;
 import com.aqua.aquapoc.ui.adapter.siteListAdapter;
 import com.aqua.aquapoc.utility.utils;
@@ -35,9 +36,13 @@ public class PondTableActivity extends AppCompatActivity {
     ListView mTempListView;
 
 
+
     TemparatureAdapter mTempAdapter ;
     DOAdapter mDoAdapter ;
     PHAdapter mPHAdapter ;
+
+    TableAdapter mTableAdapter ;
+    ListView mTableListView;
 
 
     @Override
@@ -51,25 +56,29 @@ public class PondTableActivity extends AppCompatActivity {
         pondValuesModelList = getIntent().getParcelableArrayListExtra(utils.POND_TREND);
 
 
-        mPHListView = (ListView)findViewById(R.id.listview_ph);
+       /* mPHListView = (ListView)findViewById(R.id.listview_ph);
         mDOListView = (ListView) findViewById(R.id.listview_do);
-        mTempListView = (ListView) findViewById(R.id.listview_temp);
+        mTempListView = (ListView) findViewById(R.id.listview_temp);*/
 
-        setDynamicHeight(mPHListView);
+        mTableListView = (ListView) findViewById(R.id.listview_all);
+
+       /* setDynamicHeight(mPHListView);
         setDynamicHeight(mDOListView);
-        setDynamicHeight(mTempListView);
+        setDynamicHeight(mTempListView);*/
 
 
-        mTempAdapter = new TemparatureAdapter(this);
+       /* mTempAdapter = new TemparatureAdapter(this);
         mTempListView.setAdapter(mTempAdapter);
 
         mPHAdapter = new PHAdapter(this);
         mPHListView.setAdapter(mPHAdapter);
 
         mDoAdapter = new DOAdapter(this);
-        mDOListView.setAdapter(mDoAdapter);
+        mDOListView.setAdapter(mDoAdapter);*/
 
 
+        mTableAdapter = new TableAdapter(this);
+        mTableListView.setAdapter(mTableAdapter);
 
 
         setDataSetForAll();
@@ -79,14 +88,17 @@ public class PondTableActivity extends AppCompatActivity {
 
 
     private void setDataSetForAll(){
-        mTempAdapter.setData(pondValuesModelList);
+        /*mTempAdapter.setData(pondValuesModelList);
         mTempAdapter.notifyDataSetChanged();
 
         mPHAdapter.setData(pondValuesModelList);
         mPHAdapter.notifyDataSetChanged();
 
         mDoAdapter.setData(pondValuesModelList);
-        mDoAdapter.notifyDataSetChanged();
+        mDoAdapter.notifyDataSetChanged();*/
+
+        mTableAdapter.setData(pondValuesModelList);
+        mTableAdapter.notifyDataSetChanged();
     }
 
     @Override
